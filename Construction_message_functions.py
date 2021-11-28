@@ -41,9 +41,9 @@ def water_proof(tem_p, hum_p, rain_p, message_list):      #방수공사
 
 def painters_work(tem_p, hum_p, rain_p, message_list):    #도장공사
     if 15 < tem_p < 32 and hum_p < 85:
-        message_list.append("도장공사 하기 적합한 환경입니다.", "1. 휘발성 용제 사용할 경우 화재, 폭발 주의해주세요!", "2. 도장 후 직사광선 노출은 피해주시고 바탕에 녹물 등 유해물을 제거해주세요!", "3. 도료를 선택하고 솔질이 뭉치거나 거품이 일지 않도록 천천히 발라주세요!")
+        message_list.append(["도장공사 하기 적합한 환경입니다.", "1. 휘발성 용제 사용할 경우 화재, 폭발 주의해주세요!", "2. 도장 후 직사광선 노출은 피해주시고 바탕에 녹물 등 유해물을 제거해주세요!", "3. 도료를 선택하고 솔질이 뭉치거나 거품이 일지 않도록 천천히 발라주세요!"])
     else:
-        message_list.append("도장공사 하기 적합하지 않은 환경입니다.")
+        message_list.append(["도장공사 하기 적합하지 않은 환경입니다."])
     return message_list
 
 def plaster_work(tem_p, hum_p, rain_p, message_list):     #미장공사

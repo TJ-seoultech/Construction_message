@@ -29,34 +29,23 @@ class MainDialog(QDialog):
         # self.weather_box = QLabel(self.weather_info)
         self.pushButton.clicked.connect(self.buttonclick)
 
-
-        if self.checkBox_2.isChecked():
-            cmfunc.earthwork(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send)
-        elif self.checkBox_3.isChecked():
-            cmfunc.form_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send)
-        elif self.checkBox_4.isChecked():
-            cmfunc.drain_page_works(self.weather_info[0], self.weather_info[1]   , self.weather_info[2],self.message_to_send)
-        elif self.checkBox_5.isChecked():
-            cmfunc.reinforcing_bar_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send)
-        elif self.checkBox_6.isChecked():
-            cmfunc.concrete_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send)
-        elif self.checkBox_7.isChecked():
-            cmfunc.water_proof(self.weather_info[0], self.weather_info[1]  , self.weather_info[2],self.message_to_send)
-        elif self.checkBox_8.isChecked():
-            cmfunc.painters_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send)
-        elif self.checkBox_9.isChecked():
-            cmfunc.plaster_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send)
-        elif self.checkBox_10.isChecked():
-            cmfunc.masonry(self.weather_info[0], self.weather_info[1]  , self.weather_info[2],self.message_to_send)
-        elif self.checkBox_11.isChecked():
-            cmfunc.tiling(self.weather_info[0], self.weather_info[1]   , self.weather_info[2],self.message_to_send)
-        elif self.checkBox_12.isChecked():
-            cmfunc.joiners_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send)
-
+        self.checkBox_2.clicked.connect(lambda: cmfunc.earthwork(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send))
+        self.checkBox_3.clicked.connect(lambda: cmfunc.form_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send))
+        self.checkBox_4.clicked.connect(lambda: cmfunc.drain_page_works(self.weather_info[0], self.weather_info[1]   , self.weather_info[2],self.message_to_send))
+        self.checkBox_5.clicked.connect(lambda: cmfunc.reinforcing_bar_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send))
+        self.checkBox_6.clicked.connect(lambda: cmfunc.concrete_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send))
+        self.checkBox_7.clicked.connect(lambda: cmfunc.water_proof(self.weather_info[0], self.weather_info[1]  , self.weather_info[2],self.message_to_send))
+        self.checkBox_8.clicked.connect(lambda: cmfunc.painters_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send))
+        self.checkBox_9.clicked.connect(lambda: cmfunc.plaster_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send))
+        self.checkBox_10.clicked.connect(lambda: cmfunc.masonry(self.weather_info[0], self.weather_info[1]  , self.weather_info[2],self.message_to_send))
+        self.checkBox_11.clicked.connect(lambda: cmfunc.tiling(self.weather_info[0], self.weather_info[1]   , self.weather_info[2],self.message_to_send))
+        self.checkBox_12.clicked.connect(lambda: cmfunc.joiners_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send))
 
     def buttonclick(self):
         for message in self.message_to_send:
-            self.message_1.append(message)
+            for instructions in message:
+                self.message_1.append(instructions)
+
 
 QApplication.setStyle("fusion")
 app = QApplication(sys.argv)
