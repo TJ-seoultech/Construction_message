@@ -26,29 +26,35 @@ class MainDialog(QDialog):
         uic.loadUi(ui_file,self)
         self.message_to_send = [] # 문자로 보낼 메시지 리스트
         self.weather_info = [temperature, hum, rain]
-        # self.weather_box = QLabel(self.weather_info)
+        # self.weather_box = QLabel(str("\n".join(self.weather_info)))
         self.pushButton.clicked.connect(self.buttonclick)
 
-        self.checkBox_2.clicked.connect(lambda: cmfunc.earthwork(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send))
-        self.checkBox_3.clicked.connect(lambda: cmfunc.form_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send))
-        self.checkBox_4.clicked.connect(lambda: cmfunc.drain_page_works(self.weather_info[0], self.weather_info[1]   , self.weather_info[2],self.message_to_send))
-        self.checkBox_5.clicked.connect(lambda: cmfunc.reinforcing_bar_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send))
-        self.checkBox_6.clicked.connect(lambda: cmfunc.concrete_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send))
-        self.checkBox_7.clicked.connect(lambda: cmfunc.water_proof(self.weather_info[0], self.weather_info[1]  , self.weather_info[2],self.message_to_send))
-        self.checkBox_8.clicked.connect(lambda: cmfunc.painters_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send))
-        self.checkBox_9.clicked.connect(lambda: cmfunc.plaster_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send))
-        self.checkBox_10.clicked.connect(lambda: cmfunc.masonry(self.weather_info[0], self.weather_info[1]  , self.weather_info[2],self.message_to_send))
-        self.checkBox_11.clicked.connect(lambda: cmfunc.tiling(self.weather_info[0], self.weather_info[1]   , self.weather_info[2],self.message_to_send))
-        self.checkBox_12.clicked.connect(lambda: cmfunc.joiners_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send))
+        self.checkBox_2.clicked.connect(lambda: cmfunc.earth_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_2))
+        self.checkBox_3.clicked.connect(lambda: cmfunc.form_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_3))
+        self.checkBox_4.clicked.connect(lambda: cmfunc.drain_page_works(self.weather_info[0], self.weather_info[1]   , self.weather_info[2],self.message_to_send, self.checkBox_4))
+        self.checkBox_5.clicked.connect(lambda: cmfunc.reinforcing_bar_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send, self.checkBox_5))
+        self.checkBox_6.clicked.connect(lambda: cmfunc.concrete_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_6))
+        self.checkBox_7.clicked.connect(lambda: cmfunc.water_proof(self.weather_info[0], self.weather_info[1]  , self.weather_info[2],self.message_to_send, self.checkBox_7))
+        self.checkBox_8.clicked.connect(lambda: cmfunc.painters_work(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_8))
+        self.checkBox_9.clicked.connect(lambda: cmfunc.plaster_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send, self.checkBox_9))
+        self.checkBox_10.clicked.connect(lambda: cmfunc.masonry(self.weather_info[0], self.weather_info[1]  , self.weather_info[2],self.message_to_send, self.checkBox_10))
+        self.checkBox_11.clicked.connect(lambda: cmfunc.tiling(self.weather_info[0], self.weather_info[1]   , self.weather_info[2],self.message_to_send, self.checkBox_11))
+        self.checkBox_12.clicked.connect(lambda: cmfunc.joiners_work(self.weather_info[0], self.weather_info[1] , self.weather_info[2],self.message_to_send, self.checkBox_12))
 
     def buttonclick(self):
+        self.message_1.clear()
         for message in self.message_to_send:
             for instructions in message:
                 self.message_1.append(instructions)
-
+        self.message_to_send = []
+    # def sending_message(self):
+    #     for message in self.message_to_send:
+    #         for instructions in message:
+    #
 
 QApplication.setStyle("fusion")
 app = QApplication(sys.argv)
 main_dialog = MainDialog()
+print(main_dialog.weather_info)
 main_dialog.show()
 sys.exit(app.exec_())
