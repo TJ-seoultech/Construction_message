@@ -73,6 +73,10 @@ def making_text(tem_p, hum_p, rain_p, message_list, checkBox_object, num):
         if checkBox_object.isChecked()==True:
             message_list.append(["1. 창, 문틀 수직 수평 철저하게 해주세요!", "2. 창, 문틀 고정방법 준수해주세요!", "3. 문짝 경첩부위 홈파기는 필히 기계 홈파기로 하되, 옆면 3mm 정도는 홈파지 말 것!"])
 
+    return message_list
+
+# message_to_send 리스트를 문자열로 바꾸기 위한 연습 코드로, 이 파이썬 파일을 직접 실행하지 않는 한 실행이 되지 않음.
+# Construction_message_gui_t.py에서 이 모듈을 참조할 경우에는 실행이 안됨.
 if __name__ == "__main__":
     message_to_send = [["1. Open time을 준수해주세요!(15분)", "2. 들뜸 현상이 일어나지 않게 타일 뒷면 채움을 철저하게 해주세요!"],["1. 창, 문틀 수직 수평 철저하게 해주세요!"],["2. 창, 문틀 고정방법 준수해주세요!"]]
     message_body = ''
