@@ -6,6 +6,17 @@ import urllib.request
 import re
 import Construction_message_functions_t as cmfunc
 from twilio.rest import Client
+import os
+
+
+def CCP_2(relative_path):
+    base_path = getattr(sys, "_MIEPASS", os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+if not os.path.exists("./시공환경.txt"):
+    f = open("./시공환경.txt", "w")
+else:
+    f = open("./시공환경.txt", "a")
 
 ui_file = "gui_section1_test_2_weather.ui"
 # 웹 크롤링
@@ -34,17 +45,6 @@ class MainDialog(QDialog):
 
         self.button_list = [self.checkBox_2, self.checkBox_3, self.checkBox_4, self.checkBox_5, self.checkBox_6, self.checkBox_7,
                             self.checkBox_8, self.checkBox_9, self.checkBox_10, self.checkBox_11]
-        # self.checkBox_2.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_2, 1))
-        # self.checkBox_3.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_3, 2))
-        # self.checkBox_4.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_4, 3))
-        # self.checkBox_5.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_5, 4))
-        # self.checkBox_6.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_6, 5))
-        # self.checkBox_7.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_7, 6))
-        # self.checkBox_8.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_8, 7))
-        # self.checkBox_9.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_9, 8))
-        # self.checkBox_10.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_10, 9))
-        # self.checkBox_11.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_11, 10))
-        # self.checkBox_12.clicked.connect(lambda: cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],self.message_to_send, self.checkBox_12, 11))
 
     def removing_message(self):
         self.message_1.clear()
@@ -58,24 +58,26 @@ class MainDialog(QDialog):
         for message in message_list_list:
             for instructions in message:
                 self.message_1.append(instructions)
-        self.message_to_send_twilio = self.message_to_send
+        self.message_to_send_twilio = message_list_list
         self.message_to_send = []
 
     def sending_message(self):
-        account_sid = 'AC1191609baf7cd159363ef405ead0ba8a'
-        auth_token = 'c7585ec0ce566867489f8a56f1e93cbf'
+        account_sid = 'ACc739b2997545f9fb412360d8d06a0405'
+        auth_token = 'a6a3562a36ace40ed6a672f006a5fc67'
         client = Client(account_sid, auth_token)
         message_body = ''
         # [[방수공사 주의사항, , , ],[미장공사 주의사항, , , ],[토공사 주의사항, , ]]
         for work_instructions in self.message_to_send_twilio:
             for instruction in work_instructions:
                 message_body = message_body + instruction + '\n'
+
         print(message_body)
+        f.write(message_body)
         message = client.messages \
             .create(
             body=message_body,
-            from_='+13158193390',
-            to='+8201025414136'
+            from_='+12183072574',
+            to='+8201059593780'
         )
 
 if __name__ == "__main__":
