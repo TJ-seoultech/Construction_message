@@ -23,7 +23,7 @@ if not os.path.exists("./시공환경.txt"):
 else:
     f = open("./시공환경.txt", "a")
 
-ui_file = "gui_section1_test_2_weather.ui"
+ui_file = "C_message_gui.ui"
 # 웹 크롤링
 webpage = urllib.request.urlopen(
     'https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EA%B3%B5%EB%A6%89%EB%8F%99+%EB%82%A0%EC%94%A8&oquery=%EB%8F%84%EB%8B%B4%EB%8F%99+%EB%82%A0%EC%94%A8&tqi=hiLhCsp0JXVssdi3iGossssssuR-100634/')
