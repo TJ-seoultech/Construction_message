@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QIcon
 from PyQt5 import uic
 import sys
 from bs4 import BeautifulSoup
@@ -7,7 +8,11 @@ import re
 import Construction_message_functions_t as cmfunc
 from twilio.rest import Client
 import os
+import datetime
 
+# 오늘 날짜 받아오기
+dt_now = datetime.datetime.now()
+date = dt_now.date()
 
 def CCP_2(relative_path):
     base_path = getattr(sys, "_MIEPASS", os.path.dirname(os.path.abspath(__file__)))
@@ -35,31 +40,39 @@ class MainDialog(QDialog):
     def __init__(self):
         QDialog.__init__(self, None)
         uic.loadUi(ui_file,self)
-        self.message_to_send = [] # 문자로 보낼 메시지 리스트
+        self.message_to_send = [[""],[str(date)]] # 문자로 보낼 메시지 리스트
         self.weather_info = [temperature, hum, rain]
-        self.label_4.setText('--> 날씨: {} \u2103 \n--> 습도: {}%\n--> 강수확률: {}%'.format(self.weather_info[0],self.weather_info[1], self.weather_info[2]))
-
+        self.label_4.setText('{}\n--> 날씨: {} \u2103 \n--> 습도: {}%\n--> 강수확률: {}%'.format(str(date), self.weather_info[0], self.weather_info[1], self.weather_info[2]))
+        self.init_widget()
         self.pushButton.clicked.connect(self.buttonclick)
         self.pushButton_2.clicked.connect(self.removing_message)
         self.pushButton_3.clicked.connect(self.sending_message)
+        self.pushButton_3.clicked.connect(self.Information_event)
 
         self.button_list = [self.checkBox_2, self.checkBox_3, self.checkBox_4, self.checkBox_5, self.checkBox_6, self.checkBox_7,
-                            self.checkBox_8, self.checkBox_9, self.checkBox_10, self.checkBox_11]
+                            self.checkBox_8, self.checkBox_9, self.checkBox_10, self.checkBox_11, self.checkBox_12]
+
+
+    def init_widget(self):
+        self.setWindowTitle("시공환경 알림 메시지")
+        self.setWindowIcon(QIcon('seoultech.jpg'))
 
     def removing_message(self):
         self.message_1.clear()
 
     def buttonclick(self):
         self.message_1.clear()
-        # 버튼 리스트에 각 버튼들을 하나씩 cmfunc.making_text 함수를 실행시키며 체크되어있는지 확인 후 message_to_send 리스트에 원하는 데이터를 추가.
+        # 버튼 리스트에 각 버튼들을 하나씩 cmfunc.making_text 함수를 실행시키며 체크되어있는지 확인 후 self.message_to_send 변수에 원하는 데이터들만 골라 추가.
         for i, button in enumerate(self.button_list, start=1):
-            message_list_list = cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],
+            self.message_to_send = cmfunc.making_text(self.weather_info[0], self.weather_info[1], self.weather_info[2],
                                                  self.message_to_send, button, i)
-        for message in message_list_list:
+
+        self.message_to_send_twilio = self.message_to_send
+
+        for message in self.message_to_send:
             for instructions in message:
                 self.message_1.append(instructions)
-        self.message_to_send_twilio = message_list_list
-        self.message_to_send = []
+        self.message_to_send = [[""],[str(date)]]
 
     def sending_message(self):
         account_sid = 'ACc739b2997545f9fb412360d8d06a0405'
@@ -71,14 +84,22 @@ class MainDialog(QDialog):
             for instruction in work_instructions:
                 message_body = message_body + instruction + '\n'
 
-        print(message_body)
-        f.write(message_body)
-        message = client.messages \
-            .create(
-            body=message_body,
-            from_='+12183072574',
-            to='+8201059593780'
-        )
+        f.write(message_body) # 사실 이미 문자보낼 내용을 다 message body 변수로 옮겨놓은 상황이라.. 그 내용 그대로 txt파일에 출력하면 보다 간단하게 코딩이 가능!
+        # message = client.messages \
+        #     .create(
+        #     body=message_body,
+        #     from_='+12183072574',
+        #     to='+8201059593780'
+        # )
+
+    def Information_event(self):
+        QMessageBox.information(self,'문자 보내기','메시지를 보냈습니다.')
+        for checkbox in self.button_list:
+            if checkbox.isChecked() == True:
+                checkbox.toggle()
+            else:
+                pass
+        self.removing_message()
 
 if __name__ == "__main__":
     QApplication.setStyle("fusion")
@@ -86,3 +107,4 @@ if __name__ == "__main__":
     main_dialog = MainDialog()
     main_dialog.show()
     sys.exit(app.exec_())
+    input()
